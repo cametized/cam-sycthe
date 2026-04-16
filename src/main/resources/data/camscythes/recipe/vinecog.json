@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ffb",
+    "cae",
+    "dc "
+  ],
+  "key": {
+    "a": "minecraft:netherite_axe",
+    "b": "minecraft:diamond",
+    "c": "minecraft:vine",
+    "d": "minecraft:gold_ingot",
+    "e": "minecraft:potion",
+    "f": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "minecraft:iron_sword",
+    "components": {
+      "minecraft:attribute_modifiers": {
+        "modifiers": [
+          {
+            "type": "minecraft:attack_damage",
+            "id": "minecraft:base_attack_damage",
+            "amount": 11,
+            "operation": "add_value",
+            "slot": "mainhand"
+          },
+          {
+            "type": "minecraft:attack_speed",
+            "id": "minecraft:base_attack_speed",
+            "amount": -2.7,
+            "operation": "add_value",
+            "slot": "mainhand"
+          }
+        ]
+      },
+      "minecraft:item_name": "\"Vinecog\"",
+      "minecraft:max_damage": 2869,
+      "minecraft:custom_model_data": {
+        "strings": [
+          "vinecog"
+        ]
+      }
+    },
+    "count": 1
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "dde",
+    " ac",
+    "ebd"
+  ],
+  "key": {
+    "a": "minecraft:iron_axe",
+    "b": "minecraft:gold_ingot",
+    "c": "minecraft:diamond",
+    "d": "minecraft:iron_ingot",
+    "e": "minecraft:redstone"
+  },
+  "result": {
+    "id": "minecraft:iron_sword",
+    "components": {
+      "minecraft:attribute_modifiers": {
+        "modifiers": [
+          {
+            "type": "minecraft:attack_damage",
+            "id": "minecraft:base_attack_damage",
+            "amount": 8,
+            "operation": "add_value",
+            "slot": "mainhand"
+          },
+          {
+            "type": "minecraft:attack_speed",
+            "id": "minecraft:base_attack_speed",
+            "amount": -2,
+            "operation": "add_value",
+            "slot": "mainhand"
+          }
+        ]
+      },
+      "minecraft:item_name": "\"Plaything\"",
+      "minecraft:max_damage": 2764,
+      "minecraft:custom_model_data": {
+        "strings": [
+          "plaything"
+        ]
+      }
+    },
+    "count": 1
+  }
+}
