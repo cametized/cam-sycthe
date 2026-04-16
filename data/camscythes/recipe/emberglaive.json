@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ffc",
+    "bab",
+    "dff"
+  ],
+  "key": {
+    "a": "minecraft:stone_axe",
+    "b": "#minecraft:stone_crafting_materials",
+    "d": "minecraft:lava_bucket",
+    "f": "minecraft:stone",
+    "c": "minecraft:fire_charge"
+  },
+  "result": {
+    "id": "minecraft:iron_sword",
+    "components": {
+      "minecraft:attribute_modifiers": {
+        "modifiers": [
+          {
+            "type": "minecraft:attack_damage",
+            "id": "minecraft:base_attack_damage",
+            "amount": 7,
+            "operation": "add_value",
+            "slot": "mainhand"
+          },
+          {
+            "type": "minecraft:attack_speed",
+            "id": "minecraft:base_attack_speed",
+            "amount": -2.8,
+            "operation": "add_value",
+            "slot": "mainhand"
+          }
+        ]
+      },
+      "minecraft:item_name": "\"Emberglaive\"",
+      "minecraft:max_damage": 2869,
+      "minecraft:custom_model_data": {
+        "strings": [
+          "emberglaive"
+        ]
+      },
+      "minecraft:custom_data": {
+        "emberglaive": true
+      }
+    },
+    "count": 1
+  }
+}
