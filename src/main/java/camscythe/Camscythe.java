@@ -1,15 +1,17 @@
 package camscythe;
 
-import camscythe.item.EmberglaiveItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+
+import java.util.logging.Logger;
 
 public class Camscythe implements ModInitializer {
 
@@ -27,25 +29,55 @@ public class Camscythe implements ModInitializer {
             double y = entity.getY() + entity.getHeight() * 0.5;
             double z = entity.getZ();
 
-            if (heldItem instanceof EmberglaiveItem) {
-                livingTarget.setOnFireFor(8.0f);
-                serverWorld.playSound(null, x, y, z,
-                        SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                spawnSlash(serverWorld, x, y, z, 0xFFFF4400); // orange-red
+            if (heldItem == ModItems.EMBERGLAIVE) {
+                spawnSlash(serverWorld, livingTarget, true, false, 0xFFFF4400); // orange-red
+                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
+                    player.spawnSweepAttackParticles();
+                    livingTarget.setOnFireFor(8.0f);
+                    serverWorld.playSound(null, x, y, z,
+                            SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                }
             } else if (heldItem == ModItems.PLAYTHING) {
-                spawnSlash(serverWorld, x, y, z, 0xFFFFD700); // gold
+                spawnSlash(serverWorld, livingTarget, true, true, 0xFFFFD700); // gold
+                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
+                    player.spawnSweepAttackParticles();
+                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),1.0f,1.0f);
+                } else {
+                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),0.75f,1.125f);
+                }
+                Logger.getGlobal().info(String.valueOf(player.getAttributeValue(EntityAttributes.ATTACK_SPEED)));
             } else if (heldItem == ModItems.VINECOG) {
-                spawnSlash(serverWorld, x, y, z, 0xFF33CC00); // green
+                spawnSlash(serverWorld, livingTarget, true, false, 0xFF33CC00); // green
+                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
+                    player.spawnSweepAttackParticles();
+                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),1.0f,1.0f);
+                }
             }
 
             return ActionResult.PASS;
         });
     }
 
-    private static void spawnSlash(ServerWorld world, double x, double y, double z, int color) {
+    private static void spawnSlash(ServerWorld world, LivingEntity target, boolean dust, boolean sweep, int color) {
         // Sweep arc for the slash shape
-        world.spawnParticles(ParticleTypes.SWEEP_ATTACK, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+        if (sweep) {
+            world.spawnParticles(
+                    ParticleTypes.SWEEP_ATTACK,
+                    target.getX(), target.getY()+target.getHeight()/2, target.getZ(),
+                    1,
+                    target.getWidth()/2, target.getHeight()/2, target.getWidth()/2,
+                    0.0
+            );
+        }
         // Colored dust cloud for the scythe's color
-        world.spawnParticles(new DustParticleEffect(color, 1.8f), x, y, z, 12, 0.35, 0.35, 0.35, 0.0);
+        if (dust) {
+            world.spawnParticles(
+                    new DustParticleEffect(color, 1.8f), //particle
+                    target.getX(), target.getY()+target.getHeight()/2, target.getZ(), //position
+                    Math.round(12*(target.getWidth()*target.getWidth()*target.getHeight())), //count
+                    target.getWidth()/2, target.getHeight()/2, target.getWidth()/2, //offset
+                    0.0 //speed
+            );
+        }
     }
 }
