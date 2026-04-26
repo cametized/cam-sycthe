@@ -31,27 +31,19 @@ public class Camscythe implements ModInitializer {
 
             if (heldItem == ModItems.EMBERGLAIVE) {
                 spawnSlash(serverWorld, livingTarget, true, false, 0xFFFF4400); // orange-red
-                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
-                    player.spawnSweepAttackParticles();
+                if (player.getAttackCooldownProgress(0.5f) > 0.9f) {
                     livingTarget.setOnFireFor(8.0f);
                     serverWorld.playSound(null, x, y, z,
                             SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.PLAYERS, 1.0f, 1.0f);
                 }
             } else if (heldItem == ModItems.PLAYTHING) {
                 spawnSlash(serverWorld, livingTarget, true, true, 0xFFFFD700); // gold
-                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
-                    player.spawnSweepAttackParticles();
-                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),1.0f,1.0f);
-                } else {
-                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),0.75f,1.125f);
+                if (!(player.getAttackCooldownProgress(0.5f) > 0.9f)) {
+                    player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,0.75f,1.125f);
                 }
                 Logger.getGlobal().info(String.valueOf(player.getAttributeValue(EntityAttributes.ATTACK_SPEED)));
             } else if (heldItem == ModItems.VINECOG) {
                 spawnSlash(serverWorld, livingTarget, true, false, 0xFF33CC00); // green
-                if (player.age-player.getLastAttackTime() > player.getAttackCooldownProgressPerTick()) {
-                    player.spawnSweepAttackParticles();
-                    player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,player.getSoundCategory(),1.0f,1.0f);
-                }
             }
 
             return ActionResult.PASS;
